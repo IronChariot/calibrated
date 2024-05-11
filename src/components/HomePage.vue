@@ -51,14 +51,15 @@ img {
 @media (max-width: 1300px) {
   .content-section {
     flex-direction: column;
+    align-items: center; /* Center alignment for the new columnar layout */
   }
-  
+
   .text-column, .image-column {
-    /* centered, max width 500px */
     max-width: 500px;
-    min-width: 500px;
-    justify-content: center;
+    min-width: 300px;  /* Optionally adjust for narrower screens */
+    width: 90%;        /* Adjust if a percentage width is more responsive */
     padding: 0;
+    margin: 0 auto;    /* Center the columns */
   }
 }
 </style>
