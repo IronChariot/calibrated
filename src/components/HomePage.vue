@@ -3,9 +3,17 @@
     <AnimatedModelName />
     <div class="content-section">
       <div class="text-column">
-        <p>We know large language models aren't perfect. They hallucinate, contradict themselves, and can't yet reason to the level we'd expect from something called AI. But they get some things right some of the time, and the more advanced models obviously get things right more often than weaker models. I set up this website to help people get a sense of how well calibrated they are when it comes to which questions certain models get wrong or right, and how often. Have a go and see how you do!</p>
-        <p>Select a model below and clicking 'Start'. You will be shown a question or prompt, alongside a slider to select your guess of how often the given model gets this answer wrong when its temperature is set to 1.0, mimicking a likely chatbot type setting.</p>
+        <p>We know large language models aren't perfect. They hallucinate, contradict themselves, and can't yet reason to the level we'd expect from something called AI. But they get some things right some of the time, and the more advanced models obviously get things right more often than weaker models. I set up this website to help people get a sense of how well calibrated they are when it comes to judging which questions Large language models will get right or wrong. Have a go and see how you do!</p>
+        <p>Select a model below and click 'Start'. You will be shown a question or prompt, alongside a slider to select your guess of how often the given model gets this answer wrong when its temperature is set to 1.0, a common setup when using Large Language Models as chatbots.</p>
         <p>After at least 10 guesses, you will be able to check how good your calibration is, or continue answering to get more accurate results.</p>
+        <transition name="fade">
+          <div v-if="models.length > 0">
+            <select v-model="selectedModel">
+              <option v-for="model in models" :key="model.model_nice_name" :value="model.model_nice_name">{{ model.model_nice_name }}</option>
+            </select>
+            <button @click="startQuiz">Start</button>
+          </div>
+        </transition>
       </div>
       <div class="image-column">
         <img src="@/assets/example-graph.png" alt="Calibration graph" />
@@ -15,8 +23,20 @@
 </template>
 
 <script setup>
-// Import your AnimatedModelName component
+import { onMounted, ref } from 'vue';
 import AnimatedModelName from './AnimatedModelName.vue';
+import { fetchModels } from '../api';
+const models = ref([]);
+const selectedModel = ref(''); // Declare a reactive property for the selected model
+
+onMounted(async () => {
+  models.value = await fetchModels();
+  if (models.value.length > 0) {
+    selectedModel.value = models.value[0].model_nice_name; // Automatically select the first model
+  }
+});
+
+
 </script>
 
 <style scoped>
@@ -46,6 +66,39 @@ import AnimatedModelName from './AnimatedModelName.vue';
 img {
   max-width: 100%; /* Ensures the image is responsive and does not overflow its container */
   height: auto; /* Keeps the image aspect ratio */
+}
+
+select, button {
+  font-size: 1.2rem; /* Increase font size */
+  padding: 10px 20px; /* Add padding for better touch area and visibility */
+  margin-top: 10px; /* Spacing from other elements */
+  border: 2px solid #ccc; /* Stylish border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+button {
+  margin-left: 30px;
+  height: 45px;
+  background-color: #4CAF50; /* A nice shade of green */
+  color: white;
+  border: none; /* Remove border for the button for a cleaner look */
+}
+
+button:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to, .fade-leave-from {
+  opacity: 1;
 }
 
 @media (max-width: 1300px) {
