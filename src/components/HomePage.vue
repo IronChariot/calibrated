@@ -7,7 +7,7 @@
         <p>Select a model below and click 'Start'. You will be shown a question or prompt, alongside a slider to select your guess of how often the given model gets this answer wrong when its temperature is set to 1.0, a common setup when using Large Language Models as chatbots.</p>
         <p>After at least 10 guesses, you will be able to check how good your calibration is, or continue answering to get more accurate results.</p>
         <transition name="fade">
-          <div v-if="models.length > 0">
+          <div class="select-and-button" v-if="models.length > 0">
             <select v-model="selectedModel">
               <option v-for="model in models" :key="model.model_nice_name" :value="model.model_nice_name">{{ model.model_nice_name }}</option>
             </select>
@@ -87,6 +87,14 @@ button {
 
 button:hover {
   background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.select-and-button {
+  /* Center align the entire div */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
 .fade-enter-active, .fade-leave-active {
