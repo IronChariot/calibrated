@@ -19,9 +19,9 @@ const sql = postgres({
 
 exports.handler = async function(event) {
     console.log("Path: ", event.path); // Log the path to debug
-    if (event.path.endsWith("/api/items")) { // Use endsWith for flexibility
+    if (event.path.endsWith("/api/models")) { // Use endsWith for flexibility
         try {
-            const items = await sql`SELECT * FROM items`;
+            const items = await sql`SELECT * FROM models`;
             return {
                 statusCode: 200,
                 body: JSON.stringify(items)

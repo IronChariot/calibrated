@@ -1,30 +1,24 @@
 <template>
-  <div>
-    <h1>{{ message }}</h1>
-    <ul>
-      <li v-for="item in items" :key="item.id">{{ item.name }}</li>
-    </ul>
-  </div>
+  <MainLayout>
+    <router-view />
+  </MainLayout>
 </template>
 
-<script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      message: 'Hello, Vue!',
-      items: [],
-    };
-  },
-  mounted() {
-    axios.get('/.netlify/functions/api/items')
-    .then(response => {
-      this.items = response.data;
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  },
-};
+<script setup>
+// Import any global styles, utilities, or setup functions here
+import '@/assets/styles/main.css'; // Example global style import
 </script>
+
+<style>
+/* Global styles that affect the entire application */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Handle basic theming */
+.dark-mode {
+  background-color: #333;
+  color: white;
+}
+</style>
