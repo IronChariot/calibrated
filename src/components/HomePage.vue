@@ -5,7 +5,7 @@
       <div class="text-column">
         <p>We know large language models aren't perfect. They hallucinate, contradict themselves, and can't yet reason to the level we'd hope from something called 'AI'. But they get some things right some of the time, and the more advanced models obviously get things right more often than weaker models. This website is set up to help people get a sense of how well calibrated they are when it comes to judging which questions large language models will get right or wrong. Have a go and see how you do!</p>
         <p>Select one or more of the models below and click 'Start'. You will be shown a question or prompt exactly as it was given to the model, alongside a slider to select your guess of how often the model gets the answer right when its temperature is set to 1.0, a common setup when using Large Language Models as chatbots.</p>
-        <p>After at least 10 questions, you will be able to check how good your level of calibration is, or you can continue answering to get more accurate measure.</p>
+        <p>After at least 10 questions, you will be able to check how good your level of calibration is, or you can continue answering to get a more accurate measure.</p>
         <transition name="fade">
           <div class="select-and-button" v-if="models.length > 0">
             <ul class="model-list">
