@@ -1,9 +1,9 @@
 <template>
   <div>
-    <AnimatedModelName />
+    <AnimatedModelName :models="models" />
     <div class="content-section">
       <div class="text-column">
-        <p>We know large language models aren't perfect. They hallucinate, contradict themselves, and can't yet reason to the level we'd expect from something called AI. But they get some things right some of the time, and the more advanced models obviously get things right more often than weaker models. I set up this website to help people get a sense of how well calibrated they are when it comes to judging which questions Large language models will get right or wrong. Have a go and see how you do!</p>
+        <p>We know large language models aren't perfect. They hallucinate, contradict themselves, and can't yet reason to the level we'd hope from something called 'AI'. But they get some things right some of the time, and the more advanced models obviously get things right more often than weaker models. This website is set up to help people get a sense of how well calibrated they are when it comes to judging which questions large language models will get right or wrong. Have a go and see how you do!</p>
         <p>Select a model below and click 'Start'. You will be shown a question or prompt exactly as it was given to the model, alongside a slider to select your guess of how often the model gets this answer right when its temperature is set to 1.0, a common setup when using Large Language Models as chatbots.</p>
         <p>After at least 10 guesses, you will be able to check how good your level of calibration is, or continue answering to get more accurate results.</p>
         <transition name="fade">
@@ -19,7 +19,10 @@
         </transition>
       </div>
       <div class="image-column">
-        <img src="@/assets/example-graph.png" alt="Calibration graph" />
+        <div class="image-container">
+          <img src="@/assets/example-graph.png" alt="Calibration graph" />
+          <p class="image-caption">Being well calibrated can help you make better decisions about when to use LLMs, or when higher quality prompts will be needed</p>
+        </div>
       </div>
     </div>
   </div>
@@ -153,5 +156,12 @@ button:hover {
     padding: 0;
     margin: 0 auto;    /* Center the columns */
   }
+}
+
+.image-caption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 10px;
 }
 </style>

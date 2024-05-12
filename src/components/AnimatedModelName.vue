@@ -13,18 +13,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
-import { fetchModels } from '../api';
+import { ref, watchEffect, nextTick, defineProps } from 'vue';
+
+const props = defineProps({
+  models: Array
+});
 
 const currentModelName = ref('');
 const isActive = ref(false);
 const wrapperWidth = ref('auto');
+let modelNameElement = null;
 
-onMounted(async () => {
-  const models = await fetchModels();
-  models.sort(() => 0.5 - Math.random());
+watchEffect(() => {
+  const models = props.models;
+  if (models.length === 0) return;
+  
   let index = 0;
-  let modelNameElement = null;
+  models.sort(() => 0.5 - Math.random());
 
   const cycleModelNames = async () => {
     isActive.value = false;
@@ -32,7 +37,7 @@ onMounted(async () => {
     await nextTick();
     modelNameElement = modelNameElement || document.querySelector('.model-name');
     wrapperWidth.value = `${modelNameElement.offsetWidth}px`;
-
+    
     isActive.value = true;
 
     await new Promise(resolve => setTimeout(resolve, 2700));
@@ -40,7 +45,7 @@ onMounted(async () => {
     cycleModelNames();
   };
 
-  cycleModelNames();
+  cycleModelNames(); 
 });
 </script>
 
@@ -69,6 +74,15 @@ onMounted(async () => {
     flex-direction: row;
     flex-wrap: nowrap; /* Prevents wrapping on larger screens */
   }
+  .active {
+    animation: floatFade 3s ease-in-out;
+  }
+}
+
+@media (max-width: 1299px) {
+  .active {
+    animation: floatFadeSmall 3s ease-in-out;
+  }
 }
 
 .model-name-wrapper {
@@ -89,17 +103,28 @@ onMounted(async () => {
   transform: translateX(-50%);
 }
 
-.active {
-  animation: floatFade 3s ease-in-out;
-}
-
 @keyframes floatFade {
   0% {
     transform: translateX(-50%) translateY(100%);
     opacity: 0;
   }
   25%, 75% {
-    transform: translateX(-50%) translateY(-5%);
+    transform: translateX(-50%) translateY(-11%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes floatFadeSmall {
+  0% {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  25%, 75% {
+    transform: translateX(-50%) translateY(3%);
     opacity: 1;
   }
   100% {
