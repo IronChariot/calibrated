@@ -49,12 +49,12 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25vh;
+  height: 20vh;
   flex-wrap: wrap; /* Allows content to wrap as needed */
 }
 
 .title-line {
-  font-size: 1em;
+  font-size: 0.8em;
   /* Adjust text alignment and line height as before */
   line-height: 1em;
   display: block; /* Ensures lines stack on smaller screens */

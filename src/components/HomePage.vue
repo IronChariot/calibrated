@@ -4,14 +4,17 @@
     <div class="content-section">
       <div class="text-column">
         <p>We know large language models aren't perfect. They hallucinate, contradict themselves, and can't yet reason to the level we'd expect from something called AI. But they get some things right some of the time, and the more advanced models obviously get things right more often than weaker models. I set up this website to help people get a sense of how well calibrated they are when it comes to judging which questions Large language models will get right or wrong. Have a go and see how you do!</p>
-        <p>Select a model below and click 'Start'. You will be shown a question or prompt, alongside a slider to select your guess of how often the given model gets this answer wrong when its temperature is set to 1.0, a common setup when using Large Language Models as chatbots.</p>
-        <p>After at least 10 guesses, you will be able to check how good your calibration is, or continue answering to get more accurate results.</p>
+        <p>Select a model below and click 'Start'. You will be shown a question or prompt exactly as it was given to the model, alongside a slider to select your guess of how often the model gets this answer right when its temperature is set to 1.0, a common setup when using Large Language Models as chatbots.</p>
+        <p>After at least 10 guesses, you will be able to check how good your level of calibration is, or continue answering to get more accurate results.</p>
         <transition name="fade">
           <div class="select-and-button" v-if="models.length > 0">
-            <select v-model="selectedModel">
-              <option v-for="model in models" :key="model.model_nice_name" :value="model.model_nice_name">{{ model.model_nice_name }}</option>
-            </select>
-            <button @click="startQuiz">Start</button>
+            <ul class="model-list">
+              <li v-for="model in models" :key="model.id" class="model-item">
+                <input type="checkbox" :id="model.id" :value="model.id" v-model="selectedModels">
+                <label :for="model.id">{{ model.model_nice_name }}</label>
+              </li>
+            </ul>
+            <button :disabled="selectedModels.length === 0" @click="startQuiz">Start</button>
           </div>
         </transition>
       </div>
@@ -27,19 +30,46 @@ import { onMounted, ref } from 'vue';
 import AnimatedModelName from './AnimatedModelName.vue';
 import { fetchModels } from '../api';
 const models = ref([]);
-const selectedModel = ref(''); // Declare a reactive property for the selected model
+const selectedModels = ref([]);
 
 onMounted(async () => {
   models.value = await fetchModels();
-  if (models.value.length > 0) {
-    selectedModel.value = models.value[0].model_nice_name; // Automatically select the first model
-  }
 });
 
-
+function startQuiz() {
+  if (selectedModels.value.length > 0) {
+    console.log("Starting quiz with models:", selectedModels.value);
+  }
+}
 </script>
 
 <style scoped>
+.model-list {
+  padding: 0;
+  list-style: none;
+}
+
+.model-item {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.model-item input[type="checkbox"] {
+  margin-right: 10px; /* Space between the checkbox and label */
+}
+
+/* Add styles to make disabled button obvious */
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background-color: #ccc;
+}
+
 .content-section {
   display: flex;
   justify-content: space-between;
@@ -52,6 +82,7 @@ onMounted(async () => {
   padding-left: 200px;
   max-width: 500px;
   min-width: 500px;
+  text-align: justify;
 }
 
 .image-column {
