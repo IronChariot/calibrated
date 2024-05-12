@@ -21,7 +21,7 @@
       <div class="image-column">
         <div class="image-container">
           <img src="@/assets/example-graph.png" alt="Calibration graph" />
-          <p class="image-caption">Being well calibrated can help you make better decisions about when to use LLMs, or when higher quality prompts will be needed</p>
+          <p class="image-caption">Being well calibrated can help you make better decisions about when to use LLMs, or help you know when higher quality prompts will be needed for a particular task</p>
         </div>
       </div>
     </div>
