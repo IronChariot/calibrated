@@ -23,17 +23,20 @@ const currentModelName = ref('');
 const isActive = ref(false);
 const wrapperWidth = ref('auto');
 let modelNameElement = null;
+let randomModels = [];
 
 watchEffect(() => {
   const models = props.models;
-  if (models.length === 0) return;
+  // Make a deep copy of the models array so we can randomize it without modifying the original array
+  randomModels = JSON.parse(JSON.stringify(models));
+  if (randomModels.length === 0) return;
   
   let index = 0;
-  models.sort(() => 0.5 - Math.random());
+  randomModels.sort(() => 0.5 - Math.random());
 
   const cycleModelNames = async () => {
     isActive.value = false;
-    currentModelName.value = models[index].model_nice_name;
+    currentModelName.value = randomModels[index].model_nice_name;
     await nextTick();
     modelNameElement = modelNameElement || document.querySelector('.model-name');
     wrapperWidth.value = `${modelNameElement.offsetWidth}px`;
@@ -41,7 +44,7 @@ watchEffect(() => {
     isActive.value = true;
 
     await new Promise(resolve => setTimeout(resolve, 2700));
-    index = (index + 1) % models.length;
+    index = (index + 1) % randomModels.length;
     cycleModelNames();
   };
 
