@@ -1,3 +1,4 @@
+<!-- App.vue -->
 <template>
   <MainLayout>
     <router-view />
@@ -6,6 +7,7 @@
 
 <script setup>
 // Import any global styles, utilities, or setup functions here
+import MainLayout from './components/MainLayout.vue';
 import '@/assets/styles/main.css'; // Example global style import
 </script>
 
@@ -14,11 +16,5 @@ import '@/assets/styles/main.css'; // Example global style import
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-}
-
-/* Handle basic theming */
-.dark-mode {
-  background-color: #333;
-  color: white;
 }
 </style>

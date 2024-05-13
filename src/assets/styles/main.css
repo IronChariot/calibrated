@@ -1,0 +1,41 @@
+
+  .dark-mode {
+    background-color: #333;
+    color: #fff;
+  }  
+  
+  img {
+    max-width: 100%; /* Ensures the image is responsive and does not overflow its container */
+    height: auto; /* Keeps the image aspect ratio */
+  }
+  
+  select, button {
+    font-size: 1.2rem;
+    padding: 10px 20px; /* Add padding for better touch area and visibility */
+    margin-top: 10px; 
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button {
+    height: 45px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  button:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+  }
+  
+  /* Add styles to make disabled button obvious */
+  button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+  }
+  
+  button:disabled:hover {
+    background-color: #ccc;
+  }

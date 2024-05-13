@@ -1,4 +1,4 @@
-// CalibrationResults.vue
+<!-- src/components/CalibrationResults.vue -->
 <template>
   <div>
     <ResultsBanner />

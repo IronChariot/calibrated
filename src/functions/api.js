@@ -29,6 +29,16 @@ exports.handler = async function(event) {
         } catch (error) {
             return { statusCode: 500, body: "Server Error: " + error.toString() }
         }
+    } else if (event.path.endsWith("/api/questions")) {
+        try {
+            const items = await sql`SELECT * FROM questions`;
+            return {
+                statusCode: 200,
+                body: JSON.stringify(items)
+            };
+        } catch (error) {
+            return { statusCode: 500, body: "Server Error: " + error.toString() }
+        }
     } else {
         return { statusCode: 404, body: "Endpoint Not Found" };
     }
