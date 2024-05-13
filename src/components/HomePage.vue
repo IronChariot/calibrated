@@ -144,4 +144,8 @@ button {
   margin-top: 10px;
   max-width: 800px;
 }
+
+.dark-mode .image-caption {
+  color: #ccc;
+}
 </style>
