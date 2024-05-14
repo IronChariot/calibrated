@@ -142,7 +142,7 @@ onMounted(async () => {
           position: 'bottom',
           title: {
             display: true,
-            text: '% of time LLM answered correctly',
+            text: '% correct answers for question (actual)',
             color: darkMode ? '#fff' : '#000'
           },
           ticks: {
@@ -157,7 +157,7 @@ onMounted(async () => {
         y: {
           title: {
             display: true,
-            text: 'User estimate of % of time LLM would be correct',
+            text: '% correct answers for question (user)',
             color: darkMode ? '#fff' : '#000'
           },
           ticks: {
@@ -189,8 +189,9 @@ onMounted(async () => {
 
   // Watch for dark mode changes
   watch(isDark, (newValue) => {
-    updateChartOptions(newValue);
     destroyChart(); // Destroy any existing chart instance
+    updateChartOptions(newValue);
+    chartData.value.datasets[0].borderColor = isDark.value ? 'white' : 'black'; // Update perfect calibration line color
     const ctx = document.getElementById('calibration-chart').getContext('2d');
     chartInstance = new ChartJS(ctx, {
       type: 'scatter', // Ensure the type is scatter for calibration graph
