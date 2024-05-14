@@ -19,7 +19,7 @@ const props = defineProps({
   models: Array
 });
 
-const currentModelName = ref('');
+const currentModelName = ref('GPT-4o'); // Default value so we don't have a blank while waiting for database values
 const isActive = ref(false);
 const wrapperWidth = ref('auto');
 let modelNameElement = null;

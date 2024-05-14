@@ -12,28 +12,21 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import DarkModeToggle from "@/components/DarkModeToggle.vue";
+import { useDarkMode } from '@/composables/useDarkMode'; // Import the composable
 
 library.add(faHome);
 
 const route = useRoute();
-const isDark = ref(window.matchMedia("(prefers-color-scheme: dark)").matches);
+const { isDark, toggleDarkMode } = useDarkMode(); // Use the composable
 
 // This computed property will return true if the current route is not the home page
 const isOnHomePage = computed(() => route.path === "/");
-
-if (isDark.value) {
-  document.body.classList.add('dark-mode');
-}
-
-const toggleDarkMode = () => {
-  isDark.value = !isDark.value;
-};
 
 watch(isDark, (newValue) => {
   if (newValue) {
