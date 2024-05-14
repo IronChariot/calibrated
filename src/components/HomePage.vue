@@ -43,6 +43,7 @@ const selectedModels = ref([]);
 
 onMounted(async () => {
   models.value = await fetchModels();
+  models.value.sort((a, b) => a.order - b.order);
 });
 
 function startQuiz() {
