@@ -8,7 +8,6 @@
       <DarkModeToggle @toggle="toggleDarkMode" :isDark="isDark" />
     </header>
     <slot />
-    <!-- You may uncomment the footer if needed for future use -->
   </div>
 </template>
 

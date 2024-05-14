@@ -81,8 +81,8 @@ function startQuiz() {
 }
 
 .text-column {
-  flex: 1; /* This assigns an equal amount of space to both columns */
-  padding-right: 100px; /* Adds some spacing between the text and the image */
+  flex: 1;
+  padding-right: 100px;
   padding-left: 200px;
   max-width: 500px;
   min-width: 500px;
@@ -92,8 +92,8 @@ function startQuiz() {
 .image-column {
   flex: 1;
   display: flex;
-  justify-content: center; /* Centers the image horizontally */
-  align-items: center; /* Centers the image vertically */
+  justify-content: center;
+  align-items: center;
   padding-right: 200px;
   min-width: 500px;
 }
@@ -103,7 +103,6 @@ button {
 }
 
 .select-and-button {
-  /* Center align the entire div */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,15 +124,15 @@ button {
 @media (max-width: 1300px) {
   .content-section {
     flex-direction: column;
-    align-items: center; /* Center alignment for the new columnar layout */
+    align-items: center;
   }
 
   .text-column, .image-column {
     max-width: 500px;
-    min-width: 300px;  /* Optionally adjust for narrower screens */
-    width: 90%;        /* Adjust if a percentage width is more responsive */
+    min-width: 300px;
+    width: 90%;
     padding: 0;
-    margin: 0 auto;    /* Center the columns */
+    margin: 0 auto;
   }
 }
 

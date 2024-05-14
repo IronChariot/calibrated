@@ -1,5 +1,4 @@
 // src/functions/api.js
-
 const postgres = require('postgres');
 require('dotenv').config();
 
@@ -18,7 +17,7 @@ const sql = postgres({
 });
 
 exports.handler = async function(event) {
-    console.log("Path: ", event.path); // Log the path to debug
+    //console.log("Path: ", event.path);
     if (event.path.endsWith("/api/models")) { // Use endsWith for flexibility
         try {
             const items = await sql`SELECT * FROM models`;

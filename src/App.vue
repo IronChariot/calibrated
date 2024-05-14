@@ -6,9 +6,8 @@
 </template>
 
 <script setup>
-// Import any global styles, utilities, or setup functions here
 import MainLayout from './components/MainLayout.vue';
-import '@/assets/styles/main.css'; // Example global style import
+import '@/assets/styles/main.css';
 </script>
 
 <style>

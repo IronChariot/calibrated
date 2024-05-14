@@ -58,12 +58,11 @@ watchEffect(() => {
   justify-content: center;
   align-items: center;
   height: 20vh;
-  flex-wrap: wrap; /* Allows content to wrap as needed */
+  flex-wrap: wrap;
 }
 
 .title-line {
   font-size: 0.8em;
-  /* Adjust text alignment and line height as before */
   line-height: 1em;
   display: block; /* Ensures lines stack on smaller screens */
   text-align: center;
@@ -71,7 +70,7 @@ watchEffect(() => {
 
 @media (min-width: 1300px) {
   .title-line {
-    display: inline; /* Lines flow in a row on larger screens */
+    display: inline;
   }
   .title-wrapper {
     flex-direction: row;

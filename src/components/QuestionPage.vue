@@ -3,7 +3,6 @@
   <div class="question-page">
     <transition name="slide">
       <div v-if="currentQuestion" :key="currentQuestion" class="question-content">
-        <!-- Updated title section -->
         <div class="question-title">
           <h2>Question {{ currentQuestionIndex + 1 }}</h2>
           <h3>({{ currentQuestion.category }})</h3>
@@ -173,7 +172,7 @@ function checkResults() {
 .slider-container {
   display: flex;
   align-items: center;
-  justify-content: center; /* This will space out the columns to the sides */
+  justify-content: center;
   margin: 30px 0; /* Gives some vertical spacing between each slider */
   max-width: 800px;
   min-width: 300px;
