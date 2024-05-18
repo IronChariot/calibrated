@@ -23,13 +23,13 @@
         <!-- Slider section with model label and percentage display -->
         <div class="slider-container">
           <div class="instruction">
-            <span>Your estimate of the chance that the model will answer correctly:</span>
             <div class="instruction-tooltip-container">
               <span class="instruction-question-mark" @mouseover="toggleTooltip" @mouseout="toggleTooltip" @click="toggleTooltip">?</span>
               <div v-if="showTooltip" class="instruction-tooltip">
                 Alternatively, think about it as the number of times the model will answer correctly if asked 100 times with a temperature of 1.0, which is how the ground truth is assessed!
               </div>
             </div>
+            <span>Chance that the model will answer correctly:</span>
           </div>
           <div class="slider-grid">
             <div v-for="model in selectedModels" :key="model.id" class="slider-grid-item">
@@ -140,7 +140,7 @@ function checkResults() {
 }
 
 .question-box-container, .guidance-box-container {
-  width: 500px;
+  width: 100%;
 }
 
 .question-box, .guidance-box {
@@ -163,6 +163,7 @@ function checkResults() {
   .question-box-container, .guidance-box-container {
     display: flex;
     flex-direction: column; /* Makes internal content flow vertically */
+    width: 500px;
   }
 
   .question-box, .guidance-box {
@@ -195,13 +196,12 @@ function checkResults() {
 
 .instruction {
   margin-bottom: 20px;
-  white-space: nowrap;
 }
 
 .instruction-tooltip-container {
   position: relative;
   display: inline-block;
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .instruction-question-mark {
@@ -218,10 +218,10 @@ function checkResults() {
 
 .instruction-tooltip {
   visibility: visible;
-  min-width: 300px;
-  width: auto;
-  background-color: #333;
-  color: #fff;
+  min-width: 330px;
+  max-width: 630px;
+  background-color: #ccc;
+  color: #222;
   text-align: left;
   border-radius: 5px;
   padding: 5px;
@@ -229,7 +229,12 @@ function checkResults() {
   z-index: 1;
   top: 150%; /* Position below the question mark */
   left: 50%;
-  margin-left: -300px; /* Center the tooltip */
+  margin-left: 0px; /* Center the tooltip */
+}
+
+.dark-mode .instruction-tooltip {
+  background-color: #444;
+  color: #fff;
 }
 
 .instruction-tooltip::after {
@@ -241,6 +246,10 @@ function checkResults() {
   border-width: 5px;
   border-style: solid;
   border-color: #333 transparent transparent transparent;
+}
+
+.dark-mode .instruction-tooltip::after {
+  border-color: #ccc transparent transparent transparent;
 }
 
 .slider-grid {
