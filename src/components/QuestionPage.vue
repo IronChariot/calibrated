@@ -24,7 +24,7 @@
         <div class="slider-container">
           <div class="instruction">
             <div class="instruction-tooltip-container">
-              <span class="instruction-question-mark" @mouseover="toggleTooltip" @mouseout="toggleTooltip" @click="toggleTooltip">?</span>
+              <span class="instruction-question-mark" @click="toggleTooltip">?</span>
               <div v-if="showTooltip" class="instruction-tooltip">
                 Alternatively, think about it as the number of times the model will answer correctly if asked 100 times with a temperature of 1.0, which is how the ground truth is assessed!
               </div>
@@ -66,8 +66,17 @@ const answers = ref({});
 
 const showTooltip = ref(false);
 
-const toggleTooltip = () => {
+// Unified toggle function for both touch and mouse events
+const toggleTooltip = (event) => {
+  event.stopPropagation(); // Prevent other event handlers from interfering
   showTooltip.value = !showTooltip.value;
+};
+
+// Close tooltip when tapping outside of it
+const handleClickOutside = (event) => {
+  if (showTooltip.value && !event.target.closest('.instruction-tooltip-container')) {
+    showTooltip.value = false;
+  }
 };
 
 onMounted(async () => {
@@ -75,6 +84,7 @@ onMounted(async () => {
     await store.dispatch('fetchAndSetQuestions');
   }
   setupModelAnswers();
+  document.addEventListener('click', handleClickOutside);
 });
 
 function setupModelAnswers() {
@@ -89,7 +99,7 @@ function nextQuestion() {
     answers: {...answers.value}
   });
   store.dispatch('incrementQuestionIndex');
-  setupModelAnswers()
+  setupModelAnswers();
 }
 
 function checkResults() {
