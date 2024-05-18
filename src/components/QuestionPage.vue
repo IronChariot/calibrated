@@ -4,7 +4,7 @@
     <transition name="slide">
       <div v-if="currentQuestion" :key="currentQuestion" class="question-content">
         <div class="question-title">
-          <h2>Question {{ currentQuestionIndex + 1 }}</h2>
+          <h2>Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}</h2>
           <h3>({{ currentQuestion.category }})</h3>
         </div>
         
@@ -19,12 +19,25 @@
             <div class="guidance-box">{{ currentQuestion.answer_guidance }}</div>
           </div>
         </div>
-        
+
         <!-- Slider section with model label and percentage display -->
-        <div v-for="model in selectedModels" :key="model.id" class="slider-container">
-          <label>{{ model.model_nice_name }}</label>
-          <input type="range" min="0" max="100" v-model="answers[model.id]" class="slider" />
-          <span class="percent-label">{{ answers[model.id] }}%</span>
+        <div class="slider-container">
+          <div class="instruction">
+            <span>Your estimate of the chance that the model will answer correctly:</span>
+            <div class="instruction-tooltip-container">
+              <span class="instruction-question-mark" @mouseover="toggleTooltip" @mouseout="toggleTooltip" @click="toggleTooltip">?</span>
+              <div v-if="showTooltip" class="instruction-tooltip">
+                Alternatively, think about it as the number of times the model will answer correctly if asked 100 times with a temperature of 1.0, which is how the ground truth is assessed!
+              </div>
+            </div>
+          </div>
+          <div class="slider-grid">
+            <div v-for="model in selectedModels" :key="model.id" class="slider-grid-item">
+              <label>{{ model.model_nice_name }}</label>
+              <input type="range" min="0" max="100" v-model="answers[model.id]" class="slider" />
+              <span class="percent-label">{{ answers[model.id] }}%</span>
+            </div>
+          </div>
         </div>
 
         <!-- Navigation buttons -->
@@ -50,6 +63,12 @@ const currentQuestion = computed(() => store.state.questions[store.state.current
 const answeredQuestions = computed(() => store.state.answeredQuestions);
 
 const answers = ref({});
+
+const showTooltip = ref(false);
+
+const toggleTooltip = () => {
+  showTooltip.value = !showTooltip.value;
+};
 
 onMounted(async () => {
   if (store.state.questions.length === 0) {
@@ -102,7 +121,7 @@ function checkResults() {
   text-align: center;
 }
 
-@media (min-width: 1300px) {
+@media (min-width: 1000px) {
   .question-title {
     display: flex;
     justify-content: center;
@@ -121,7 +140,7 @@ function checkResults() {
 }
 
 .question-box-container, .guidance-box-container {
-  width: 100%;
+  width: 500px;
 }
 
 .question-box, .guidance-box {
@@ -135,7 +154,7 @@ function checkResults() {
   background-color: #444;
 }
 
-@media (min-width: 1300px) {
+@media (min-width: 1000px) {
   .question-guidance-container {
     flex-direction: row;
     justify-content: center;
@@ -152,7 +171,7 @@ function checkResults() {
 }
 
 /* Adjustments for devices with less than 1300px screen width */
-@media (max-width: 1300px) {
+@media (max-width: 1000px) {
   .question-box, .guidance-box {
     width: calc(100% - 40px); /* Subtracts double the horizontal padding */
     margin-right: auto;
@@ -170,30 +189,86 @@ function checkResults() {
 }
 
 .slider-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 30px 0; /* Gives some vertical spacing between each slider */
-  max-width: 800px;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+.instruction {
+  margin-bottom: 20px;
+  white-space: nowrap;
+}
+
+.instruction-tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.instruction-question-mark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.instruction-tooltip {
+  visibility: visible;
   min-width: 300px;
+  width: auto;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  top: 150%; /* Position below the question mark */
+  left: 50%;
+  margin-left: -300px; /* Center the tooltip */
 }
 
-/* Add a sub-class for labels to align them to the right */
-.slider-container label {
-  flex: 1; /* Takes up full space it can */
-  text-align: right; /* Aligns the text to the right */
-  margin-right: 10px; /* Space between the label and slider */
-  white-space: nowrap; /* Prevents the label from wrapping */
+.instruction-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%; /* Position the arrow at the top of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
 }
 
-/* Control the width of sliders specifically */
-.slider-container input[type="range"] {
-  flex: 3; /* Slider should take more space */
+.slider-grid {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  grid-gap: 30px 10px;
+  align-items: center;
 }
 
-.percent-label {
+.slider-grid-item {
+  display: contents;
+}
+
+.slider-grid-item label {
+  text-align: right;
+  margin-right: 10px;
+  /* Don't let it word wrap */
+  white-space: nowrap;
+}
+
+.slider-grid-item input[type="range"] {
+  width: 100%;
+}
+
+.slider-grid-item .percent-label {
   width: 50px;
   text-align: left;
+  margin-left: 30px;
 }
 
 .slide-enter-active, .slide-leave-active {
