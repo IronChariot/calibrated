@@ -3,6 +3,11 @@
   <div class="container chart-container">
     <h2>Calibration Results</h2>
     <canvas id="calibration-chart"></canvas>
+    <h2>Result Details</h2>
+    <div id="model-strengths"></div>
+    <div id="model-weaknesses"></div>
+    <div id="question-strengths"></div>
+    <div id="question-weaknesses"></div>
   </div>
 </template>
 
@@ -205,11 +210,35 @@ onMounted(async () => {
     },
     options: chartOptions.value
   });
+
+  // If all the userAnswers.value were all 100 for every model and every question, just put the text "Wow, you were in a hurry, or maybe you just have great confidence in every LLM!" into the div with id "model-strengths"
+  if (Array.isArray(userAnswers.value)) {
+    // Perform the check with added debugging console logs
+    const allAnswersAre100 = userAnswers.value.every((userAnswer) => {
+      return Object.values(userAnswer.answers).every((answer) => {
+        console.log(answer);
+        return answer === 100;
+      });
+    });
+
+    console.log(allAnswersAre100);
+
+    if (allAnswersAre100) {
+      document.getElementById('model-strengths').innerHTML = 'Wow, you were in a hurry, or maybe you just have great confidence in every LLM!';
+    } else {
+      WriteResultDetails();
+    }
+  }
+  
 });
 
 onBeforeUnmount(() => {
   destroyChart();
 });
+
+const WriteResultDetails = () => {
+  document.getElementById('model-strengths').innerHTML = "Something";
+};
 </script>
 
 <style scoped>
