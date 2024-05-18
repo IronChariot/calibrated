@@ -216,12 +216,9 @@ onMounted(async () => {
     // Perform the check with added debugging console logs
     const allAnswersAre100 = userAnswers.value.every((userAnswer) => {
       return Object.values(userAnswer.answers).every((answer) => {
-        console.log(answer);
         return answer === 100;
       });
     });
-
-    console.log(allAnswersAre100);
 
     if (allAnswersAre100) {
       document.getElementById('model-strengths').innerHTML = 'Wow, you were in a hurry, or maybe you just have great confidence in every LLM!';
