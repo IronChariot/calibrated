@@ -234,7 +234,7 @@ onBeforeUnmount(() => {
 });
 
 const WriteResultDetails = () => {
-  document.getElementById('model-strengths').innerHTML = "Something";
+  document.getElementById('model-strengths').innerHTML = "...";
 };
 </script>
 
