@@ -12,7 +12,7 @@
         <div class="question-guidance-container">
           <div class="question-box-container">
             <label class="box-label">Exact Prompt:</label>
-            <div class="question-box">{{ currentQuestion.question_text }}</div>
+            <div class="question-box" :style="{ whiteSpace: 'pre-line' }">{{ currentQuestion.question_text }}</div>
           </div>
           <div class="guidance-box-container">
             <label class="box-label">Answer Guidance:</label>
@@ -41,8 +41,10 @@
         </div>
 
         <!-- Navigation buttons -->
-        <button v-if="currentQuestionIndex < questions.length - 1" @click="nextQuestion" class="next-question-button">Next Question</button>
-        <button v-if="answeredQuestions.length >= 10" @click="checkResults" class="check-results-button">Check Calibration Results</button>
+        <div class="navigation-buttons">
+          <button v-if="currentQuestionIndex < questions.length - 1" @click="nextQuestion" class="next-question-button">Next Question</button>
+          <button v-if="answeredQuestions.length >= 10" @click="checkResults" class="check-results-button">Check Calibration Results</button>
+        </div>
       </div>
     </transition>
   </div>
@@ -181,7 +183,7 @@ function checkResults() {
   }
 }
 
-/* Adjustments for devices with less than 1300px screen width */
+/* Adjustments for devices with less than 1000px screen width */
 @media (max-width: 1000px) {
   .question-box, .guidance-box {
     width: calc(100% - 40px); /* Subtracts double the horizontal padding */
@@ -305,5 +307,29 @@ function checkResults() {
 
 .slide-leave-to {
   transform: translateX(-100%);
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.check-results-button {
+  margin-left: 20px;
+  background-color: #3f96fa;
+}
+
+/* Media query for screens narrower than 1000px */
+@media (max-width: 1000px) {
+  .navigation-buttons {
+    flex-direction: column;
+    align-items: center; /* Ensure buttons stay centered on smaller screens */
+  }
+
+  .check-results-button {
+    margin-left: 0;
+    margin-top: 10px; /* Add some space between the buttons vertically */
+  }
 }
 </style>
